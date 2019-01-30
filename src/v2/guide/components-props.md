@@ -6,34 +6,35 @@ order: 102
 
 > 이 페이지는 여러분이 이미 [컴포넌트 기초](components.html)를 읽었다고 가정하고 쓴 내용입니다. 컴포넌트가 처음이라면 기초 문서를 먼저 읽으시기 바랍니다.
 
-## Prop Casing (camelCase vs kebab-case)
+## Prop 표기법 (캐멀케이스 vs 케밥-케이스)
 
-HTML attribute names are case-insensitive, so browsers will interpret any uppercase characters as lowercase. That means when you're using in-DOM templates, camelCased prop names need to use their kebab-cased (hyphen-delimited) equivalents:
+HTML 속성은 대소문자를 구분하지 않기 때문에 브라우저는 모든 대문자를 소문자로 해석합니다. DOM 템플릿에서 사용할 때, 캐멀케이스로 작성된 prop 이름을 DOM 템플릿에서 사용할 때는 케밥-케이스(하이픈-구분)를 사용해야 합니다.
+
 
 ``` js
 Vue.component('blog-post', {
-  // camelCase in JavaScript
+  // JavaScript에서는 camelCase
   props: ['postTitle'],
   template: '<h3>{{ postTitle }}</h3>'
 })
 ```
 
 ``` html
-<!-- kebab-case in HTML -->
+<!-- HTML에서는 kebab-case -->
 <blog-post post-title="hello!"></blog-post>
 ```
 
-Again, if you're using string templates, this limitation does not apply.
+문자열 템플릿을 사용하는 경우에는 이런 한계점을 신경쓰지 않아도 괜찮습니다.
 
-## Prop Types
+## Prop 타입
 
-So far, we've only seen props listed as an array of strings:
+지금까지는, 문자열 배열로된 props만 살펴봤습니다.
 
 ```js
 props: ['title', 'likes', 'isPublished', 'commentIds', 'author']
 ```
 
-Usually though, you'll want every prop to be a specific type of value. In these cases, you can list props as an object, where the properties' names and values contain the prop names and types, respectively:
+일반적으로는 prop의 데이터 타입을 지정하게 됩니다. 이럴 경우 props를 객체로 지정해서 나열할 수 있고 prop 이름과 데이터 타입을 각각 프로퍼티의 이름과 값 위치에 적어주면 됩니다.
 
 ```js
 props: {
@@ -45,29 +46,29 @@ props: {
 }
 ```
 
-This not only documents your component, but will also warn users in the browser's JavaScript console if they pass the wrong type. You'll learn much more about [type checks and other prop validations](#Prop-Validation) further down this page.
+이 방식은 컴포넌트를 설명해줄 뿐만 아니라 사용자가 잘못된 타입을 넘겨줄 경우 브라우저의 자바스크립트 콘솖을 통해 경고도 합니다. 이에 대해서는 아래 나오게 될 [타입 체크와 prop 검증](#Prop-검증)에서 더 자세히 배울 수 있습니다.
 
-## Passing Static or Dynamic Props
+## 정적, 동적 Props 넘기기
 
-So far, you've seen props passed a static value, like in:
+지금까지 아래처럼 정적인 값을 넘기는 props와
 
 ```html
 <blog-post title="My journey with Vue"></blog-post>
 ```
 
-You've also seen props assigned dynamically with `v-bind`, such as in:
+아래처럼 `v-bind`를 사용해서 동적으로 값을 넘기는 props를 살펴봤습니다.
 
 ```html
-<!-- Dynamically assign the value of a variable -->
+<!-- 변수의 값을 동적으로 할당한다. -->
 <blog-post v-bind:title="post.title"></blog-post>
 
-<!-- Dynamically assign the value of a complex expression -->
+<!-- 복잡한 표현식의 값을 동적으로 할당한다. -->
 <blog-post
   v-bind:title="post.title + ' by ' + post.author.name"
 ></blog-post>
 ```
 
-In the two examples above, we happen to pass string values, but _any_ type of value can actually be passed to a prop.
+위의 두 예제에서는 문자값을 넘겨줬지만 _모든_ 타입의 값을 prop에 넘겨줄 수 있습니다.
 
 ### Passing a Number
 
@@ -179,7 +180,7 @@ There are usually two cases where it's tempting to mutate a prop:
 
 <p class="tip">Note that objects and arrays in JavaScript are passed by reference, so if the prop is an array or object, mutating the object or array itself inside the child component **will** affect parent state.</p>
 
-## Prop Validation
+## Prop 검증
 
 Components can specify requirements for its props, such as the types you've already seen. If a requirement isn't met, Vue will warn you in the browser's JavaScript console. This is especially useful when developing a component that's intended to be used by others.
 
